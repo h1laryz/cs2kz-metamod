@@ -338,10 +338,20 @@ static_function void Mapi_OnTriggerMultipleSpawn(const EntitySpawnInfo_t *info)
 			// Check for pre-mapping api triggers for backwards compatibility.
 			if (g_mappingApi.mapApiVersion == KZ_NO_MAPAPI_VERSION)
 			{
-				if (info->m_pEntity->NameMatches("timer_startzone") || info->m_pEntity->NameMatches("timer_endzone"))
+				if (info->m_pEntity->NameMatches("timer_startzone") || info->m_pEntity->NameMatches("map_start")
+					|| info->m_pEntity->NameMatches("s1_start") || info->m_pEntity->NameMatches("stage1_start")
+					|| info->m_pEntity->NameMatches("zone_start") || info->m_pEntity->NameMatches("timer_startzone_2")
+					|| info->m_pEntity->NameMatches("timer_startzone_2_5254"))
 				{
 					snprintf(trigger.zone.courseDescriptor, sizeof(trigger.zone.courseDescriptor), KZ_NO_MAPAPI_COURSE_DESCRIPTOR);
-					trigger.type = info->m_pEntity->NameMatches("timer_startzone") ? KZTRIGGER_ZONE_START : KZTRIGGER_ZONE_END;
+					trigger.type = KZTRIGGER_ZONE_START;
+				}
+				if (info->m_pEntity->NameMatches("timer_endzone") || info->m_pEntity->NameMatches("map_end")
+					|| info->m_pEntity->NameMatches("zone_end") || info->m_pEntity->NameMatches("timer_endzone_2")
+					|| info->m_pEntity->NameMatches("timer_endzone_2_5256"))
+				{
+					snprintf(trigger.zone.courseDescriptor, sizeof(trigger.zone.courseDescriptor), KZ_NO_MAPAPI_COURSE_DESCRIPTOR);
+					trigger.type = KZTRIGGER_ZONE_END;
 				}
 			}
 			break;
